@@ -87,7 +87,10 @@ init = ->
         Získal #{it.hlasu} hlasů<br />"
       else
         "<b>Zastupitel za #{it.strana.nazev}</b><br>"
-      out += "#{it.strana.nazev} získala #{utils.percentage it.strana.procent} % hlasů, #{it.strana.zastupitelu} zastupitelů<br>"
+      zastupiteluString =
+        | 0 < it.strana.zastupitelu < 5 => 'zastupitele'
+        | otherwise => 'zastupitelů'
+      out += "#{it.strana.nazev} získala #{utils.percentage it.strana.procent} % hlasů, #{it.strana.zastupitelu} #zastupiteluString<br>"
       out
 if d3?
   init!
