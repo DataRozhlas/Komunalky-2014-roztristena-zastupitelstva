@@ -46,8 +46,9 @@ prepare-stylus = (file, options, cb) ->
 build-script = (file, cb) ->
   require! child_process.exec
   (err, result) <~ exec "lsc -o #__dirname/www/js -c #__dirname/#file"
-  throw err if err
-  cb?!
+  if err
+    console.error err
+  cb err
 
 build-all-scripts = (cb) ->
   console.log "Building scripts..."
@@ -133,7 +134,6 @@ combine-scripts = (options = {}, cb) ->
 run-script = (file) ->
   require! child_process.exec
   (err, stdout, stderr) <~ exec "lsc #__dirname/#file"
-  throw err if err
   console.error stderr if stderr
   console.log stdout
 
@@ -239,8 +239,8 @@ task \build-script ({currentfile}) ->
   else if isScript
     run-script file
   else
-    <~ build-script file
-    combine-scripts compression: no
+    (err) <~ build-script file
+    combine-scripts compression: no if not err
 
 task \name ({name}) ->
   name ?= process.cwd!split /[/\\]/ .pop!
