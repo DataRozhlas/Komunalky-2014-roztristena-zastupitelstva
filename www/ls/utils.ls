@@ -49,3 +49,6 @@ insertThousandSeparator = (input, separator = ' ') ->
       if isThirdNumeral and not isLast
         out.unshift separator
     out.join ''
+
+utils.percentage = ->
+  window.ig.utils.formatNumber it * 100, 1
