@@ -50,23 +50,27 @@ init = ->
   new Tooltip!watchElements!
   utils = window.ig.utils
   kosti = window.ig.data.obce
-  kostiCont = d3.select ig.containers.base
+  kostiCont = d3.select '.ig.ig-kosti'
   width = kostiCont.0.0.offsetWidth
   kostSide = 28
   kostiX = Math.floor width / kostSide
+  kostiAssoc = {}
   for datum in kosti
     mergeObvody datum.zastupitelstvo, datum
     datum.rows = Math.ceil datum.zastupitelstvo.zastupitele.length / kostiX
     for zastupitel, index in datum.zastupitelstvo.zastupitele
       zastupitel.index = index
-  typy = kostiCont.selectAll \div.typ.active .data kosti
-    ..enter!append \div
-      ..attr \class "typ active"
-      ..append \h3
-        ..html (.nazev)
-      ..append \div
-        ..attr \class \kosti
-        ..style \height -> "#{it.rows * kostSide}px"
+    kostiAssoc[datum.nazev] = datum
+  typy = d3.selectAll \.ig.ig-kosti
+    ..datum (d, i) ->
+      id = @getAttribute 'data-ig'
+      kostiAssoc[id]
+    ..attr \class "ig typ active"
+    ..append \h3
+      ..html (.nazev)
+    ..append \div
+      ..attr \class \kosti
+      ..style \height -> "#{it.rows * kostSide}px"
 
   currentKosti = typy.select \.kosti
     ..selectAll \.kost.active .data (.zastupitelstvo.zastupitele)

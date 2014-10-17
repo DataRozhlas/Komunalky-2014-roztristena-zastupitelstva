@@ -13,6 +13,7 @@ externalStyles =
   ...
 
 externalData =
+  "style": "#__dirname/www/screen.css"
   "obce": "#__dirname/data/obce.json"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
